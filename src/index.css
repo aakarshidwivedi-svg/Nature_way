@@ -1,0 +1,6 @@
+@tailwind base;@tailwind components;@tailwind utilities;
+html{scroll-behavior:smooth}body{@apply bg-paper text-forest font-sans text-[17px] leading-relaxed overflow-x-hidden}
+h1,h2,h3{@apply font-serif font-light leading-none tracking-tight}
+input[type=range]{@apply w-full;accent-color:#7a8b3f}
+button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid #d8582a;outline-offset:2px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}

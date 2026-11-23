@@ -1,0 +1,10 @@
+import {useSyncExternalStore} from 'react';import {idb} from '../sim/idb';import {defaultCfg,SPECIES,ECOS,cl} from '../simulation/engine';
+let st={cfg:defaultCfg(),status:'idle',saved:[]};const subs=new Set();
+export const get=()=>st,set=p=>{st={...st,...p};subs.forEach(f=>f())};
+export const useStore=()=>useSyncExternalStore(f=>{subs.add(f);return()=>subs.delete(f)},get);
+export const setCfg=p=>set({cfg:{...st.cfg,...p}});
+export const setEcosystem=k=>{const sp=ECOS[k].species[0];setCfg({eco:k,species:sp,env:{...ECOS[k].env},init:SPECIES[sp].init})};
+export const setSpecies=sp=>setCfg({species:sp,init:SPECIES[sp].init});
+export const loadSaved=()=>idb.all().then(a=>set({saved:a.sort((x,y)=>y.id-x.id)})).catch(()=>{});
+export const saveRec=async r=>{await idb.put(r);await loadSaved()};export const delRec=async id=>{await idb.del(id);await loadSaved()};
+loadSaved();
